@@ -1,0 +1,29 @@
+{
+  "name": "airBnB-clone-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./src/server/server.js",
+  "scripts": {
+    "start": "node ./src/server/server.js",
+    "watch": "nodemon ./src/server/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/charade/airBnB-clone-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/charade/airBnB-clone-api/issues"
+  },
+  "homepage": "https://github.com/charade/airBnB-clone-api#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mysql2": "^2.2.5"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
