@@ -20,8 +20,8 @@ exports.getAllCities = ()=>{
 //////////////////////////////////////////////////// HOST ////////////////////////////////////////
 
 //login host
-exports.loginHost = (user,callback)=>{
-    db.query(`SELECT * FROM users  WHERE email = ${mysql.escape(user.email)} AND  password = ${mysql.escape(user.password)} AND role = host);`,(err,response)=>{
+exports.loginHost = (email,callback)=>{
+    db.query(`SELECT * FROM users  WHERE email = ${mysql.escape(email)} AND role = host);`,(err,response)=>{
 
         if(err){
             callback(err, null);
@@ -131,8 +131,8 @@ exports.get_available_places = (callback)=>{
 /////////////////////////////////////////////////// TOURTIST /////////////////////////////////////////////////////////
 
 //login tourist
-exports.loginTourist = (user,callback)=>{
-    db.query(`SELECT * FROM users  WHERE email = ${mysql.escape(user.email)} AND  password = ${mysql.escape(user.password)} AND role = tourist);`,(err,response)=>{
+exports.loginTourist = (email,callback)=>{
+    db.query(`SELECT * FROM users  WHERE email = ${mysql.escape(email)}  AND role = tourist);`,(err,response)=>{
 
         if(err){
             callback(err, null);
