@@ -1,4 +1,3 @@
-
 const db = require('../database');
 const mysql = require('mysql2');
 
@@ -20,16 +19,16 @@ exports.getAllCities = ()=>{
 //////////////////////////////////////////////////// HOST ////////////////////////////////////////
 
 //login host
-exports.loginHost = (email,callback)=>{
-    db.query(`SELECT * FROM users  WHERE email = ${mysql.escape(email)} AND role = host);`,(err,response)=>{
+// exports.loginHost = (email,callback)=>{
+//     db.query(`SELECT * FROM users  WHERE email = ${mysql.escape(email)} AND role = host);`,(err,response)=>{
 
-        if(err){
-            callback(err, null);
-            return;
-        }
-        callback(null, response);
-    })
-}
+//         if(err){
+//             callback(err, null);
+//             return;
+//         }
+//         callback(null, response);
+//     })
+// }
 
 //add a place. (host)
 /**
@@ -85,6 +84,8 @@ exports.all_booked_places = (user_id, callback)=>{
              })
 }
 
+
+//refecto table..ON DELETE CASCADE
 //delete a place
 exports.delete_a_place = (place_id, callback)=>{
     db.query(`DELETE FROM places WHERE places.id = ${place_id};`,(err, response)=>{
@@ -96,8 +97,6 @@ exports.delete_a_place = (place_id, callback)=>{
         callback(null, response);
     })
 }
-
-
 
 ///////////////////////////////////////// VISITOR ///////////////////////////////////////////
 
@@ -130,9 +129,10 @@ exports.get_available_places = (callback)=>{
 }
 /////////////////////////////////////////////////// TOURTIST /////////////////////////////////////////////////////////
 
+
 //login tourist
-exports.loginTourist = (email,callback)=>{
-    db.query(`SELECT * FROM users  WHERE email = ${mysql.escape(email)}  AND role = tourist);`,(err,response)=>{
+exports.login = (email, role, callback)=>{
+    db.query(`SELECT * FROM users  WHERE email = ${mysql.escape(email)}  AND role = "${role}";`, (err,response)=>{
 
         if(err){
             callback(err, null);
@@ -141,6 +141,8 @@ exports.loginTourist = (email,callback)=>{
         callback(null, response);
     })
 }
+
+
 
 //booking a place
 exports.book_a_place = (user_id, place_id, date, callback)=>{
@@ -170,6 +172,18 @@ exports.all_places_booked = (user_id, callback) =>{
 exports.cancelBooking = (booking_id, callback)=>{
     db.query(`DELETE FROM booking WHERE id = ${booking_id};`, (err, response)=>{
 
+        if(err){
+            callback(err, null);
+            return;
+        }
+        callback(null, response);
+    })
+}
+
+////////////////////////////////////////////////// HOST & TOURIST ////////////////////////////////////////////////////
+
+exports.getUser = ( email, role, callback) =>{
+    db.query(`SELECT * FROM users WHERE email = ${mysql.escape(email)} AND role = ${mysql.escape(role)};`, (err, response)=>{
         if(err){
             callback(err, null);
             return;
