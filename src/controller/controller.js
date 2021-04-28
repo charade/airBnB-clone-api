@@ -104,20 +104,19 @@ exports.authentication = (req,res) =>{
 exports.add_a_place = (req, res) => {
     
     const {name, description, rooms, bathrooms, max_guests, price_by_night_, available} = req.body;
-    const {city_name} = req.query;
-    const {user_id} = req.params;
+    const {user_id, city_name} = req.params;
 
     model.get_a_city(city_name, (err, resp)=> {
         if(err) {
-            res.status(500).json({message: "connection failed!"})
+            res.status(500).json({message: err})
         }
         if(resp.length > 0){
             const city_id = resp[0].id;
 
-            model.add_a_place(city_id, user_id, req.body, (err, response)=>{
+            model.add_a_place(city_id,req.body, user_id,  (err, response)=>{
 
                 if(err) {
-                    res.status(500).json({messsage: "connection failed!"});
+                    res.status(500).json({messsage: err});
                 }
                 res.status(200).json({message: "successfully added a place!"});
             })
@@ -133,7 +132,7 @@ exports.delete_a_place = (req, res)=>{
 
     model.delete_a_place(place_id, user_id, (err, response)=>{
         if(err){
-            res.status(500).json({message: "connection failed!"});
+            res.status(500).json({message: err});
         }
 
         res.status(200).json({message: "sucessfully deleted a place!"});
@@ -147,8 +146,12 @@ exports.get_host_places_list = (req, res)=>{
     model.get_places_in_rent_list(user_id, (err, response)=>{
         if(err){
             res.status(500).json({message: "connection failed!"})
+            return;
         }
-        if(response.lenght > 0){
+        console.log(response[0])
+
+        if(response.length > 0){
+
             res.status(200).json({message: "success!", response: response});
             return;
         }
@@ -158,15 +161,33 @@ exports.get_host_places_list = (req, res)=>{
 
 // Host can change a place's info
 exports.modify_place_info = (req, res)=>{
-    const {column} = req.params;
+    const {column, place_id} = req.params;
     const {newValue} = req.body;
 
-    model.editInfo(column, newValue, (err, response)=>{
+    model.editInfo(column, newValue, place_id, (err, response)=>{
+        if(err){
+            res.status(500).json({message: err})
+            return;
+        }
+        res.status(200).json({message: response})
+    })
+}
+
+// All places booked
+exports.all_booked_places = (req, res)=>{
+    const{user_id} = req.params;
+
+    model.all_booked_places(user_id, (err, response)=>{
+
         if(err){
             res.status(500).json({message: "connection failed!"})
         }
-        res.status(200).json({message: "success!"})
+        if(response.length === 0){
+            res.status(400).json({message: "no places booked"})
+        }
+        res.status(200).json({message: "success!", response: response})
     })
-
 }
+
+// 
 
