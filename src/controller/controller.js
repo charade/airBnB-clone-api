@@ -92,8 +92,8 @@ exports.authentication = (req,res) =>{
             id : response[0].id
         }
         const token = await jwt.sign(user, process.env.SECRET);
-        res.cookie("authentication",token, {maxAge : expDate});
+        
         // console.log(res.cookies.authentication)
-        res.status(200).json({message : `bienvenu ${user.first_name} en tant que ${user.role}`});
+        res.status(200).json({message : `bienvenu ${user.first_name} en tant que ${user.role}`,token : token});
     })
 }
