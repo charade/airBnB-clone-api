@@ -5,16 +5,6 @@ const mysql = require('mysql2');
 
 
 
-//get all cities
-exports.getAllCities = ()=>{
-    db.query('SELECT * FROM cities;', (err,response)=>{
-        if(err){
-            callback(err, null);
-            return;
-        }
-        callback(null, response);
-    })
-}
 
 //////////////////////////////////////////////////// HOST ////////////////////////////////////////
 
@@ -48,7 +38,7 @@ exports.add_a_place = (user_id, place, city_id, callback)=>{
 
 //host's places list
 exports.get_places_in_rent_list = (user_id, callback)=>{
-    db.query(`SELECT * FROM places INNER JOIN users ON places.user_id = users.id WHERE places.users_id = ${user_id};`, (err,response)=>{
+    db.query(`SELECT * FROM places INNER JOIN users ON places.user_id = users.id WHERE places.users_id = ${user_id} AND users.role = "hote";`, (err,response)=>{
 
         if(err){
             callback(err, null);
@@ -60,7 +50,9 @@ exports.get_places_in_rent_list = (user_id, callback)=>{
 
 //host can change a place info
 exports.editInfo = (column, newValue, callback)=>{
-    db.query(`UPDATE places SET ${column} = ${newValue};`,(err, response)=>{
+    newValue = typeof newValue == "string" ? `"${newValue}"`: `${newValue}`;
+
+    db.query(`UPDATE places SET ${column} = ${newValue}`, (err, response)=>{
 
         if(err){
             callback(err,null);
@@ -87,8 +79,8 @@ exports.all_booked_places = (user_id, callback)=>{
 
 //refecto table..ON DELETE CASCADE
 //delete a place
-exports.delete_a_place = (place_id, callback)=>{
-    db.query(`DELETE FROM places WHERE places.id = ${place_id};`,(err, response)=>{
+exports.delete_a_place = (place_id, user_id, callback)=>{
+    db.query(`DELETE FROM places WHERE places.id = ${place_id} AND places.user_id = ${user_id};`,(err, response)=>{
         
         if(err){
             callback(err, null);
@@ -193,6 +185,17 @@ exports.getUser = ( email, role, callback) =>{
 }
 
 ///////////////////////////////////////////////// ALL USERS INCLUDING VISITORS ///////////////////////////////////////
+
+//get a city
+exports.get_a_city = (city_name, callback)=>{
+    db.query(`SELECT * FROM cities WHERE name = ${city_name};`, (err,response)=>{
+        if(err){
+            callback(err, null);
+            return;
+        }
+        callback(null, response);
+    })
+}
 
 // get one place info
 exports.get_a_place_info = (place_id, callback)=>{
