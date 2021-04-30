@@ -15,7 +15,7 @@ app.use(cookieParser());
 app.use(router);
 
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 3000;
 
 app.listen(port, ()=> console.log("running on port " + port));
 
