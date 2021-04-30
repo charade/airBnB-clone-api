@@ -12,7 +12,7 @@ exports.signUp = async(req, res) => {
     
 const{email, password, first_name, last_Name, role} = req.body;
    try {
-      const regEmail = /^(\w+)@(\w+)\.(\w{2,})$/;
+      const regEmail = /^([a-z A-Z 0-9](\.)?)+@\w+\.(\w){2,4}$/;
       const regRole = /^(hote|touriste)$/gi;
       if(regEmail.test(email) && regRole.test(role) ){
           
@@ -25,12 +25,21 @@ const{email, password, first_name, last_Name, role} = req.body;
                 role : role,
                 password:hash
             }
-
-            model.createAccount(user, (err, resp) =>{
+            model.getUser(email, role,(err, response)=>{
                 if(err){
                     res.status(500).json({err:"connection to database failed"});
                 }
-                res.status(200).json({message:"user registered"});
+                if(response.length === 0){
+                    
+                    model.createAccount(user, (err, resp) =>{
+                        if(err){
+                            res.status(500).json({err:"connection to database failed"});
+                        }
+                        res.status(200).json({message:"user registered"});
+                    })
+                    return
+                }
+                res.status(400).json({message:"email already exists"});
             })
       }
       else{
@@ -134,7 +143,6 @@ exports.delete_a_place = (req, res)=>{
         if(err){
             res.status(500).json({message: err});
         }
-
         res.status(200).json({message: "sucessfully deleted a place!"});
     })
 }
@@ -189,5 +197,6 @@ exports.all_booked_places = (req, res)=>{
     })
 }
 
-// 
+//// //////all the places for a city ////////////
+exports
 

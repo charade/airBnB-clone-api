@@ -133,8 +133,6 @@ exports.login = (email, role, callback)=>{
     })
 }
 
-
-
 //booking a place
 exports.book_a_place = (user_id, place_id, date, callback)=>{
     db.query(`INSERT INTO booking(users_id, places_id, check_in, check_out) VALUES(${user_id}, ${place_id}, ${date.in}, ${date.out})`, (err, response)=>{
