@@ -46,3 +46,36 @@ exports.all_places_booked = async (req, res)=>{
         console.error(err);
     }
 }
+
+exports.search_places_byDate = async (req, res) =>{
+    const {date_in, date_out} = req.query;
+    const date = date_in + " / " + date_out;
+    try{
+        const response = await touristModel.get_all_places();
+        const array = response[0].filter(el=> el.available === date);
+        res.status(200).json({response:array})
+    }
+    catch(err){
+        res.status(500).json({error:err});
+    }
+}
+
+exports.search_places_byCity = async (req, res) =>{
+    const {city_name} = req.query;
+    try{   
+        const getCityArr = await modelUtils.get_a_city_byName(city_name); 
+
+        if(getCityArr[0].length !== 0){
+            const city_id = getCityArr[0][0].id;
+            const placesArr = await modelUtils.all_places_in_the_city(city_id);
+            res.status(200).json({response:placesArr[0]})
+            return;
+        }
+        res.status(400).json({message: "city not found!"})
+    }
+    catch(err){
+        res.status(500).json({error:err});
+    }
+}
+
+

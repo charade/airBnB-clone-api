@@ -7,7 +7,7 @@ const utils = require ('../model/modelUtils');
  //////////// signup///////
 exports.signUp = async(req, res) => {
     
-    const{email, password, first_name, last_Name, role} = req.body;
+    const{email, password, first_name, last_name, role} = req.body;
 
     try {
        const regEmail = /^([a-z A-Z 0-9](\.)?)+@\w+\.(\w){2,4}$/;
@@ -18,7 +18,7 @@ exports.signUp = async(req, res) => {
             const hash = await bcrypt.hash(password,10);
             const user = {
                 first_name : first_name,
-                last_Name :last_Name,
+                last_name :last_name,
                 email : email,
                 role : role,
                 password:hash
