@@ -2,10 +2,10 @@
   "name": "airBnB-clone-api",
   "version": "1.0.0",
   "description": "",
-  "main": "./src/server/server.js",
+  "main": "./src/app.js",
   "scripts": {
-    "start": "node ./src/server/server.js",
-    "watch": "nodemon ./src/server/server.js"
+    "start": "node ./src/app.js",
+    "watch": "nodemon ./src/app.js"
   },
   "repository": {
     "type": "git",
