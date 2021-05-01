@@ -197,6 +197,5 @@ exports.all_booked_places = (req, res)=>{
     })
 }
 
-//// //////all the places for a city ////////////
-exports
+
 
