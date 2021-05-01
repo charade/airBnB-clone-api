@@ -21,6 +21,7 @@ router.post('/places/add/:user_id/:city_name', hostController.add_a_place)
 
 //url /places/availablity/:user_id/:place_id?check_in=...&check_out=...
 router.get('/places/availablity/:user_id/:place_id', touristController.add_place_to_bookmarks)
-      .delete('/places/booked/delete/:user_id/:booking_id', touristController.cancel_booked_place);//we need to add booked to make diferrence with the first delete request
+      .delete('/places/booked/delete/:user_id/:booking_id', touristController.cancel_booked_place)//we need to add booked to make diferrence with the first delete request
+      .get('/places/booked/:user_id', touristController.all_places_booked);
 
 module.exports = router ;
