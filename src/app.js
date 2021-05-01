@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 
 const router = require('./router/router');
-const controller = require('./controller/controller');
 
 const app = express();
 
@@ -14,9 +13,6 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(router);
 
-
 const port = process.env.PORT || 3000;
 
-app.listen(port, ()=> console.log("running on port " + port));
-
-
+app.listen(port, () => console.log(port));
