@@ -34,14 +34,12 @@ exports.get_all_booked_places = async(user_id)=>{
 /**
  * @ places.available must return a LONG TEXT we need to split before use in order to check if the user's date entry is in
  */
- exports.get_available_places = (callback)=>{
-    db.query(`SELECT * FROM places INNER JOIN booking on booking.places_id = places.id  WHERE booking.check_in >= ${Date.now()} ;`,(err, response)=>{
-
-        if(err){
-            callback(err, null);
-            return;
-        }
-        callback(null, response);
-    })
+ exports.get_all_places = async()=>{
+   return await db.query(`SELECT * FROM places;`)
 }
 
+
+
+
+
+///// search places ////

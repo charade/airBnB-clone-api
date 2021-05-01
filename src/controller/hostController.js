@@ -9,8 +9,8 @@ exports.add_a_place = async(req, res) => {
     const {user_id, city_name} = req.params;
     ///before adding a place we check if it exists
     const city = await utils.get_a_city_byName(city_name);
-
-    if(city[0][0].length !== 0){
+    console.log(city[0])
+    if(city[0].length !== 0){
         const city_id = city[0][0].id;
         await host.add_a_place(user_id,req.body, city_id);
         res.status(200).json({message: "successfully added a place!"});
