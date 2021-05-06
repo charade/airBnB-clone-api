@@ -8,11 +8,11 @@ exports.createAccount = async (user) => await db.query(`INSERT INTO users(email,
 exports.all_places_in_the_city = async (city_id) => await db.query(`SELECT * FROM places INNER JOIN cities ON places.cities_id = cities.id WHERE cities.id = ${city_id};`);
 
 // login tourist
-exports.login = async (email, role) => await db.query(`SELECT * FROM users  WHERE email = ${mysql.escape(email)}  AND role = "${role}";`);
+exports.login = async (email) => await db.query(`SELECT * FROM users  WHERE email = ${mysql.escape(email)};`);
 
 /// /////////////////////////////////////////////// HOST & TOURIST ////////////////////////////////////////////////////
 
-exports.getUser = async (email, role) => await db.query(`SELECT * FROM users WHERE email = ${mysql.escape(email)} AND role = ${mysql.escape(role)};`);
+exports.getUser = async (email) => await db.query(`SELECT * FROM users WHERE email = ${mysql.escape(email)};`);
 
 // get a city
 exports.get_a_city_byName = async (city_name) => await db.query(`SELECT id FROM cities WHERE name = "${city_name}";`);
