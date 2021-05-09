@@ -78,9 +78,38 @@ exports.authentication = async (req, res) => {
     };
     
     const token = await jwt.sign(user, process.env.SECRET);
-    
-    res.status(200).json({ message: `bienvenu ${user.first_name}`, token: token });
+    res.status(200).json({ token: token, role : userResponse[0][0].role });
   } catch (err) {
     res.status(500).json({ message: err });
   }
+}
+
+exports.getAllPlaces = async(req,res) =>{
+  
+  try{
+    const response = await utils.all_places();
+    const data = response[0]
+    res.status(200).json({ data});
+  }
+  catch(err){
+    console.error(err)
+  }
+}
+
+exports.get_a_place_info = async(req, res) =>{
+    const {id} =  req.params;
+    try{
+      const response = await utils.get_a_place_info(id);
+      const data = response[0][0];
+      
+      const city = await utils.get_a_city_byId(data.cities_id);
+      data.city = city[0][0].name;
+      delete data.password;
+      res.status(200).json({ data });
+      
+    }
+    catch(err){
+      console.log(err)
+    }
+
 }
