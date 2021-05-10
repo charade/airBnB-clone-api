@@ -44,17 +44,23 @@ exports.delete_a_place = async(req, res) => {
 
 // Get host's places list
 exports.get_host_places_list = async (req, res) => {
-  const { user_id } = req.params;
+  const { token } = req.body;
   try {
+    const user = jwt.verify(token, process.env.SECRET);
+    const user_id = user.id;
     const places = await host.get_places_in_rent_list(user_id);
-
-    if (places[0][0].length !== 0) {
-      res.status(200).json({ message: 'success!', response });
+    
+    if (places[0].length !== 0) {
+      const data = places[0]
+      res.status(200).json({ message: 'success!', data : data });
+      console.log(data)
       return;
     }
-    res.status(400).json({ message: 'not found!' });
+    // res.status(400).json({ message: 'not found!' });
+    
   } catch (err) {
-    res.status(500).json({ message: 'connection failed!' });
+    // res.status(500).json({ message: 'connection failed!' });
+    console.error(err)
   }
 };
 

@@ -50,12 +50,11 @@ exports.all_places_booked = async (req, res) => {
 };
 
 exports.search_places_byDate = async (req, res) => {
-  const { date_in, date_out } = req.query;
-  const date = `${date_in} / ${date_out}`;
+  const {date} = req.body;
   try {
     const response = await touristModel.get_all_places();
     const array = response[0].filter((el) => el.available === date);
-    res.status(200).json({ response: array });
+    res.status(200).json({ data: array });
   } catch (err) {
     res.status(500).json({ error: err });
   }
@@ -71,8 +70,6 @@ exports.search_places_byCity = async (req, res) => {
       const data = placesArr[0]
       console.log(data)
       res.status(200).json({ data });
-      console.log("server")
-
       return;
     }
     res.status(400).json({ message: 'city not found!' });

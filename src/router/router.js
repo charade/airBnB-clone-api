@@ -9,12 +9,12 @@ const touristController = require('../controller/touristController');
 /// //////////////// UTILS //////////////////////////////////////////////
 router.post('/airbnb-clone/register', utils.signUp)
       .get('/airbnb-clone/place-info/:id', utils.get_a_place_info)
-      .post('/airbnb-clone/login', utils.login, utils.authentication)
+      .post('/airbnb-clone/login', utils.login, utils.authentication);
 
 /// //////////////////////// HOST ///////////////////////////////////////
 router.post('/airbnb-clone/places/add', hostController.add_a_place)
   .delete('/airbnb-clone/places/delete', hostController.delete_a_place)
-  .get('/airbnb-clone/places/list/:user_id', hostController.get_host_places_list)
+  .post('/airbnb-clone/places/list', hostController.get_host_places_list)
   .patch('/airbnb/places/edit/:place_id', hostController.modify_place_info)
   .get('/airbnb/places/places_booked/:user_id', hostController.all_host_booked_places);
 
@@ -24,8 +24,8 @@ router.post('/airbnb-clone/places/add', hostController.add_a_place)
 router.post('/airbnb-clone/places/availablity', touristController.add_place_to_bookmarks)
   .delete('/airbnb-clone/places/booked/delete/:user_id/:booking_id', touristController.cancel_booked_place)// we need to add booked to make diferrence with the first delete request
   .post('/airbnb-clone/places/booked', touristController.all_places_booked)
-  .get('/airbnb-clone/places/available-places-by-date', touristController.search_places_byDate)
-  .post('/airbnb-clone-clone/search-by-city', touristController.search_places_byCity)
+  .post('/airbnb-clone/places/available-places-by-date', touristController.search_places_byDate)
+  .post('/airbnb-clone/search-by-city', touristController.search_places_byCity)
   .get('/airbnb-clone/places/available-places-by-city', touristController.search_places_byCity);
 
 router.get('/airbnb-clone/places/last', utils.getAllPlaces);
